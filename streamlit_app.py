@@ -99,10 +99,25 @@ if uploaded_masterteam and uploaded_registar and st.button('Spoji podatke i prip
     df_merged['mismatch'] = df_merged['Šifra tipa prisustva'].isna()
     # Step 3: Compare the values (Ukupni_sati_za_placu and Broj sati)
     df_merged['sati_match'] = df_merged['Ukupni_sati_za_placu'] == df_merged['Broj_sati']
+    # Rename specific columns manually
+    df_merged = df_merged.rename(columns={
+        'Oib': 'Oib_MasterTeam',
+        'Šifra tipa prisustva': 'Šifra tipa prisustva_MasterTeam',
+        'Prezime i Ime': 'Prezime i Ime_MasterTeam',
+        'Ukupni_sati_za_placu': 'Ukupni_sati_za_placu_MasterTeam',
+        'Period': 'Period_MasterTeam',
+
+        'OIB': 'OIB_Registar',
+        'Element plaće MT': 'Element plaće MT_Registar',
+        'Zaposlenik': 'Zaposlenik_Registar',
+        'Broj_sati': 'Broj_sati_Registar'
+    })
+
     # Step 4: Filter for only matching rows (where no mismatch and hours match)
     df_matches = df_merged[(df_merged['mismatch'] == False) & (df_merged['sati_match'] == True)]
     # Step 5: Filter for mismatches (either mismatch in Šifra tipa prisustva or hours)
     df_mismatches = df_merged[(df_merged['mismatch'] == True) | (df_merged['sati_match'] == False)]
+    df_mismatches = df_mismatches.drop(columns=['min_date', 'max_date', 'mismatch', 'sati_match'])
     # Report
     st.write(df_mismatches)
 
