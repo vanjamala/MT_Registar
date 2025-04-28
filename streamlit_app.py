@@ -56,7 +56,7 @@ if uploaded_masterteam and uploaded_registar and st.button('Spoji podatke i prip
     df['Prezime i Ime'] = df['Prezime'] + ' ' + df['Ime']
 
     # Step 2: Convert 'Datum' to datetime format (if it's not already)
-    df['Datum'] = pd.to_datetime(df['Datum'])
+    df['Datum'] = pd.to_datetime(df['Datum'], errors='coerce')
     df = df[~df['Dan'].isin(['Subota', 'Nedjelja'])]
     #df = df[~df['Šifra tipa prisustva'].isin(['O', 'H', 'B'])]
     df = df[~df['Šifra tipa prisustva'].isin(['O'])]
